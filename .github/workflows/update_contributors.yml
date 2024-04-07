@@ -1,0 +1,44 @@
+name: Update Contributors List
+on:
+  schedule:
+    # Run every day of the week at 6am
+    - cron:  '0 6 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+        - main
+
+jobs:
+  UpdateContributors:
+    if: github.repository_owner == 'AuroraEditor'
+    runs-on: ubuntu-latest   
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create config.json
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "{
+              \"url\": \"https://api.github.com/users/AuroraEditor/repos\",
+              \"token\": \"$TOKEN\",
+              \"exclude\": [
+                \"ImgBotApp\",
+                \"aurora-care-bear\",
+                \"github-actions[bot]\",
+                \"dependabot[bot]\",
+                \"allcontributors[bot]\",
+                \"actions-user\"
+              ]
+          }" > config.json
+
+      - name: Run & Send
+        run: swift application.swift
+
+      - name: Upload 'contributors.json' to repo
+        run: |
+          git config --global user.name 'aurora-care-bear'
+          git config --global user.email 'aurora-care-bear@users.noreply.github.com'
+          git remote set-url --push origin https://aurora-care-bear:$BOT_TOKEN@github.com/AuroraEditor/AuroraEditorDiscordBot
+          git add contributors.json
+          git commit -m "Update Contributors (`date`)"
+          git push origin HEAD:main

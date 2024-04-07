@@ -1,0 +1,12 @@
+{
+    "url": "https://api.github.com/users/AuroraEditor/repos",
+    "token": "GITHUB_TOKEN",
+    "exclude": [
+        "ImgBotApp",
+        "aurora-care-bear",
+        "github-actions[bot]",
+        "dependabot[bot]",
+        "allcontributors[bot]",
+        "actions-user"
+    ]
+}
