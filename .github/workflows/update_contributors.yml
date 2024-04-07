@@ -1,8 +1,8 @@
 name: Update Contributors List
 on:
   schedule:
-    # Run every day of the week at 6am
-    - cron:  '0 6 * * *'
+    # Run every day of the week at 6am and 6pm
+    - cron:  '0 6,18 * * *'
   workflow_dispatch:
   push:
     branches:
@@ -32,7 +32,7 @@ jobs:
           }" > config.json
 
       - name: Run & Send
-        run: echo swift application.swift
+        run: swift application.swift
 
       - name: Get SHA Hash of contributors.json
         id: get_sha
@@ -67,8 +67,6 @@ jobs:
           curl -H "Authorization: Bearer $PAT" -X PUT \
             -d "$json" \
             "$api_url"
-
-          echo "JSON: $json"
 
       - name: Upload 'contributors.json' to repo
         run: |
