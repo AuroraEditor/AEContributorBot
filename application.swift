@@ -69,7 +69,7 @@ func parseRepo(repo: GitHubRepo) {
     // Get the contributors.
 
     guard let contributorsInRepo: [Contributor]? = fetchData(
-        url: repo.contributors_url
+        url: repo.contributors_url + "?per_page=500"
     ) else {
         print("Unable to parse the data from \(repo.contributors_url)")
         return
