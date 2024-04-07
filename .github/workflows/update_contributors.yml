@@ -61,7 +61,7 @@ jobs:
           sha=${{ steps.get_sha.outputs.sha }}
           commit_message="Update Contributors (`date`)"
           api_url="https://api.github.com/repos/AuroraEditor/auroraeditor.com/contents/public/data/contributors.json"
-          json="{\"message\": \"$commit_message\", \"content\": \"$(base64 -i contributors.json -w 0)\", \"branch\": \"main\", \"sha\": \"$sha\"}"
+          json="{\"message\": \"$commit_message\", \"content\": \"$(base64 -i contributors.json | tr -d \\n)\", \"branch\": \"main\", \"sha\": \"$sha\"}"
           echo "JSON: $json"
 
           # Use curl to create the commit with the updated JSON file
