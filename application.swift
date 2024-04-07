@@ -98,10 +98,6 @@ func parseRepo(repo: GitHubRepo) {
     }
 }
 
-
-print("Contributors:")
-dump(contributors)
-
 // Encode the contributors to JSON.
 if let jsonData = try? JSONEncoder().encode(contributors) {
     // Write the data to a file.
