@@ -34,7 +34,7 @@ jobs:
       - name: Run & Send
         run: swift application.swift
 
-      - name: Commit Updated contributors.json to auroraeditor.com Repository
+      - name: Get SHA Hash of contributors.json
         env:
           PAT: ${{ secrets.BOT_TOKEN }}
         run: |
@@ -51,19 +51,22 @@ jobs:
     
           # Extract SHA from the JSON response
           SHA=$(echo "$result" | jq -r '.sha')
+          echo "SHA: $SHA"
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
-      - name: 
+      - name: Commit Updated contributors.json to auroraeditor.com Repository
         env:
           PAT: ${{ secrets.BOT_TOKEN }}
         run: |
           sha=${{ steps.get_sha.outputs.sha }}
           commit_message="Update Contributors (`date`)"
           api_url="https://api.github.com/repos/AuroraEditor/auroraeditor.com/contents/public/data/contributors.json"
+          json="{\"message\": \"$commit_message\", \"content\": \"$(base64 -i contributors.json)\", \"branch\": \"main\", \"sha\": \"$sha\"}"
+          echo "JSON: $json"
           
           # Use curl to create the commit with the updated JSON file
           curl -H "Authorization: Bearer $PAT" -X PUT \
-            -d "{\"message\": \"$commit_message\", \"content\": \"$(base64 -i contributors.json)\", \"branch\": \"main\", \"sha\": \"$sha\"}" \
+            -d json \
             "$api_url"
 
       - name: Upload 'contributors.json' to repo
