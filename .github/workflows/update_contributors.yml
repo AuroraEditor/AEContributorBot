@@ -34,6 +34,40 @@ jobs:
       - name: Run & Send
         run: swift application.swift
 
+      - name: Get SHA of old contributors.json file
+        id: get_sha
+        env:
+          PAT: ${{ secrets.BOT_TOKEN }}
+        run: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            result=$(curl -s -H "Authorization: Bearer $PAT" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/AuroraEditor/auroraeditor.com/contents/public/public/data/contributors.json 2>&1)
+
+          # Check for errors and log stderr
+          if [ $? -ne 0 ]; then
+            echo "::error::Error occurred during curl request:"
+            echo "::error::$result"
+            exit 1
+          fi
+    
+          # Extract SHA from the JSON response
+          SHA=$(echo "$result" | jq -r '.sha')
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+      - name: Commit Updated contributors.json to auroraeditor.com Repository
+        env:
+          PAT: ${{ secrets.BOT_TOKEN }}
+        run: |
+          sha=${{ steps.get_sha.outputs.sha }}
+          commit_message="Update Contributors (`date`)"
+          api_url="https://api.github.com/repos/AuroraEditor/auroraeditor.com/contents/public/public/data/contributors.json"
+          
+          # Use curl to create the commit with the updated JSON file
+          curl -H "Authorization: Bearer $PAT" -X PUT \
+            -d "{\"message\": \"$commit_message\", \"content\": \"$(base64 -i contributors.json)\", \"branch\": \"main\", \"sha\": \"$sha\"}" \
+            "$api_url"
+
       - name: Upload 'contributors.json' to repo
         run: |
           git config --global user.name 'aurora-care-bear'
