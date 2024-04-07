@@ -35,6 +35,7 @@ jobs:
         run: swift application.swift
 
       - name: Get SHA Hash of contributors.json
+        id: get_sha
         env:
           PAT: ${{ secrets.BOT_TOKEN }}
         run: |
