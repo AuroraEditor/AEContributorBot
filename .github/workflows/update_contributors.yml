@@ -64,7 +64,7 @@ jobs:
           
           # Use curl to create the commit with the updated JSON file
           curl -H "Authorization: Bearer $PAT" -X PUT \
-            -d "{\"message\": \"$commit_message\", \"content\": \"$(base64 -i contributors.json)\", \"branch\": \"main\", \"sha\": \"$sha\"}" \
+            -d "{\"message\": \"$commit_message\", \"content\": \"`base64 -i contributors.json`\", \"branch\": \"main\", \"sha\": \"$sha\"}" \
             "$api_url"
 
       - name: Upload 'contributors.json' to repo
