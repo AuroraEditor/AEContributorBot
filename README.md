@@ -47,3 +47,7 @@ Run it using:
 ```bash
 swift application.swift
 ```
+
+---
+
+This script runs after a merged PR.
