@@ -52,7 +52,6 @@ jobs:
     
           # Extract SHA from the JSON response
           SHA=$(echo "$result" | jq -r '.sha')
-          echo "SHA: $SHA"
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
       - name: Commit Updated contributors.json to auroraeditor.com Repository
