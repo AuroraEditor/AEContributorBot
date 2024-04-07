@@ -18,11 +18,13 @@ import FoundationNetworking
 class Contributor: Codable {
     let login: String
     let avatar_url: String
+    let html_url: String
     var contributions: Int
 
-    init(login: String, avatar_url: String, contributions: Int) {
+    init(login: String, avatar_url: String, html_url: String, contributions: Int) {
         self.login = login
         self.avatar_url = avatar_url
+        self.html_url = html_url
         self.contributions = contributions
     }
 }
@@ -89,6 +91,7 @@ func parseRepo(repo: GitHubRepo) {
             contributors.append(.init(
                 login: contributor.login,
                 avatar_url: contributor.avatar_url,
+                html_url: contributor.html_url,
                 contributions: contributor.contributions
             ))
         }
