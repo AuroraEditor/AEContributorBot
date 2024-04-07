@@ -2,11 +2,9 @@ name: Update Contributors List
 on:
   schedule:
     # Run every day of the week at 6am and 6pm
-    - cron:  '0 6,18 * * *'
+    - cron: '0 6,18 * * *'
+  repository_dispatch:
   workflow_dispatch:
-  push:
-    branches:
-        - main
 
 jobs:
   UpdateContributors:
