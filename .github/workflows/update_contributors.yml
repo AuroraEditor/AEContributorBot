@@ -1,9 +1,11 @@
 name: Update Contributors List
 on:
-  schedule:
-    # Run every day of the week at 6am and 6pm
+  # Run every day of the week at 6am and 6pm
+  schedule:  
     - cron: '0 6,18 * * *'
+  # Run if dispatched by @aurora-care-bear using the REST API
   repository_dispatch:
+  # Dispatch if triggered using Github (website)
   workflow_dispatch:
 
 jobs:
