@@ -74,5 +74,5 @@ jobs:
           git config --global user.email 'aurora-care-bear@users.noreply.github.com'
           git remote set-url --push origin https://aurora-care-bear:$BOT_TOKEN@github.com/AuroraEditor/AEContributorBot
           git add contributors.json
-          git commit -m "Update Contributors (`date`)"
+          git commit --allow-empty -m "Update Contributors (`date`)"
           git push origin HEAD:main
