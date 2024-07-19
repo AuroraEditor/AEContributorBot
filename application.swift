@@ -98,6 +98,9 @@ func parseRepo(repo: GitHubRepo) {
     }
 }
 
+// Sort the contributors by the number of contributions.
+contributors.sort { $0.contributions > $1.contributions }
+
 // Encode the contributors to JSON.
 if let jsonData = try? JSONEncoder().encode(contributors) {
     // Write the data to a file.
