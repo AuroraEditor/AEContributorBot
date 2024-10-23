@@ -9,4 +9,6 @@
         "allcontributors[bot]",
         "actions-user"
     ]
+    "includeForks": false,
+    "markForkAsIndirect": false
 }
