@@ -33,14 +33,14 @@ struct Configuration: Codable {
     let url: String
     let token: String
     let exclude: [String]
-    var includeForks: Bool = false
-    var markForkAsIndirect: Bool = false
+    // var includeForks: Bool = false
+    // var markForkAsIndirect: Bool = false
 }
 
 struct GitHubRepo: Codable {
     let name: String
     let contributors_url: String
-    let fork: Bool // Mark those as indirect if configured.
+    let fork: Bool
 }
 
 // Fail if the config file doesn't exist.
@@ -62,7 +62,7 @@ if let githubData: [GitHubRepo] = fetchData(url: configuration.url) {
 
     // Walk through the repos.
     for repo in githubData {
-        if !configuration.includeForks && repo.fork {
+        if /* !configuration.includeForks && */ repo.fork {
             print("Skipping \(repo.name), this is a fork and we dont parse forks")
             continue
         }
