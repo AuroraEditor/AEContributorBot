@@ -86,6 +86,7 @@ func parseRepo(repo: GitHubRepo) {
         }) {
             // Update the contributions.
             selectedContributor.contributions += contributor.contributions
+            print("Contributions for \(contributor.login) is \(contributor.contributions) in \(repo.name)")
         } else {
             // Add the contributor.
             contributors.append(.init(
@@ -94,6 +95,7 @@ func parseRepo(repo: GitHubRepo) {
                 html_url: contributor.html_url,
                 contributions: contributor.contributions
             ))
+            print("Contributions for \(contributor.login) is \(contributor.contributions) in \(repo.name)")
         }
     }
 }
