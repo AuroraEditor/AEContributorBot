@@ -33,6 +33,8 @@ struct Configuration: Codable {
     let url: String
     let token: String
     let exclude: [String]
+    var includeForks: Bool = false
+    var markForkAsIndirect: Bool = false
 }
 
 struct GitHubRepo: Codable {
@@ -60,6 +62,11 @@ if let githubData: [GitHubRepo] = fetchData(url: configuration.url) {
 
     // Walk through the repos.
     for repo in githubData {
+        if !configuration.includeForks && repo.fork {
+            print("Skipping \(repo.name), this is a fork and we dont parse forks")
+            continue
+        }
+
         // Parse the repo.
         print("Parsing \(repo.name)")
         parseRepo(repo: repo)
