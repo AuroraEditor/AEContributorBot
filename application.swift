@@ -38,6 +38,7 @@ struct Configuration: Codable {
 struct GitHubRepo: Codable {
     let name: String
     let contributors_url: String
+    let fork: Bool // Mark those as indirect if configured.
 }
 
 // Fail if the config file doesn't exist.
